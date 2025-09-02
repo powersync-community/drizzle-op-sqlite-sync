@@ -1,0 +1,67 @@
+{
+  "name": "@powersync/drizzle-op-sqlite-sync",
+  "version": "0.0.1",
+  "description": "Synchronous Drizzle ORM Driver for React Native using op-sqlite",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "lib/src/index.js",
+  "types": "lib/src/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "default": "./lib/src/index.js",
+        "types": "./lib/src/index.d.ts"
+      },
+      "require": {
+        "default": "./dist/index.cjs",
+        "types": "./dist/index.d.cts"
+      }
+    }
+  },
+  "author": "JOURNEYAPPS",
+  "license": "Apache-2.0",
+  "files": [
+    "lib",
+    "dist"
+  ],
+  "repository": "https://github.com/powersync-ja/drizzle-op-sqlite-sync",
+  "bugs": {
+    "url": "https://github.com/powersync-ja/drizzle-op-sqlite-sync/issues"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "homepage": "https://docs.powersync.com",
+  "scripts": {
+    "build": "tsc -b && rollup --config",
+    "build:prod": "tsc -b --sourceMap false && rollup --config --sourceMap=false",
+    "clean": "rm -rf lib dist tsconfig.tsbuildinfo",
+    "watch": "tsc --build -w",
+    "test": "vitest",
+    "test:exports": "attw --pack ."
+  },
+  "devDependencies": {
+    "@pnpm/workspace.find-packages": "^1000.0.33",
+    "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-typescript": "^12.1.4",
+    "@types/node": "^20.17.6",
+    "drizzle-orm": "^0.44.5",
+    "prettier": "^3.6.2",
+    "rollup-plugin-dts": "^6.2.3",
+    "typescript": "^5.9.2",
+    "vite": "^6.1.0",
+    "vite-plugin-top-level-await": "^1.4.4",
+    "vite-plugin-wasm": "^3.3.0",
+    "vitest": "^3.2.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "@op-engineering/op-sqlite": "15.0.1"
+    }
+  },
+  "dependencies": {
+    "@op-engineering/op-sqlite": "^15.0.1"
+  }
+}
