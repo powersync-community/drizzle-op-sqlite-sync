@@ -1,5 +1,5 @@
 {
-  "name": "@powersync/drizzle-op-sqlite-sync",
+  "name": "@powersync-community/drizzle-op-sqlite-sync",
   "version": "0.0.1",
   "description": "Synchronous Drizzle ORM Driver for React Native using op-sqlite",
   "type": "module",
@@ -24,12 +24,12 @@
     "lib",
     "dist"
   ],
-  "repository": "https://github.com/powersync-ja/drizzle-op-sqlite-sync",
+  "repository": "https://github.com/powersync-community/drizzle-op-sqlite-sync",
   "bugs": {
-    "url": "https://github.com/powersync-ja/drizzle-op-sqlite-sync/issues"
+    "url": "https://github.com/powersync-community/drizzle-op-sqlite-sync/issues"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
+    "registry": "https://npm.pkg.github.com",
     "access": "public"
   },
   "homepage": "https://docs.powersync.com",
