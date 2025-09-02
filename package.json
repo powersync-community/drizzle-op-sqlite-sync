@@ -49,6 +49,7 @@
     "@types/node": "^20.17.6",
     "drizzle-orm": "^0.44.5",
     "prettier": "^3.6.2",
+    "rollup": "^4.50.0",
     "rollup-plugin-dts": "^6.2.3",
     "typescript": "^5.9.2",
     "vite": "^6.1.0",
