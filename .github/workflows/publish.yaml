@@ -46,6 +46,11 @@ jobs:
       - name: Build package
         run: pnpm build
 
+      - name: Configure npm for GitHub Packages
+        run: |
+          echo "@powersync-community:registry=https://npm.pkg.github.com" >> ~/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> ~/.npmrc
+
       - name: Publish package
         run: pnpm publish --no-git-checks --access public
         env:
