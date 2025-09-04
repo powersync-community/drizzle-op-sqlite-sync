@@ -19,7 +19,7 @@ import {
   PowerSyncSQLiteDatabase,
   wrapPowerSyncWithDrizzle,
 } from '@powersync/drizzle-driver';
-import { drizzle, OPSQLiteDatabase } from '@powersync/drizzle-op-sqlite-sync';
+import { drizzle, OPSQLiteDatabase } from '@powersync-community/drizzle-op-sqlite-sync';
 import { Platform } from 'react-native';
 
 const logger = createBaseLogger();

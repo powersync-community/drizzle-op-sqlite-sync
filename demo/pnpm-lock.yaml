@@ -14,12 +14,12 @@ importers:
       '@op-engineering/op-sqlite':
         specifier: ^15.0.1
         version: 15.0.1(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.0))(react@19.1.0)
+      '@powersync-community/drizzle-op-sqlite-sync':
+        specifier: file:../
+        version: file:..(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.0))(react@19.1.0)
       '@powersync/drizzle-driver':
         specifier: ^0.5.0
         version: 0.5.0(@powersync/common@1.36.0)(drizzle-orm@0.44.5(@op-engineering/op-sqlite@15.0.1(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.0))(react@19.1.0)))
-      '@powersync/drizzle-op-sqlite-sync':
-        specifier: file:../
-        version: file:..(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.0))(react@19.1.0)
       '@powersync/op-sqlite':
         specifier: ^0.7.6
         version: 0.7.6(@op-engineering/op-sqlite@15.0.1(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.0))(react@19.1.0))(@powersync/common@1.36.0)(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.0))(react@19.1.0)
@@ -920,6 +920,9 @@ packages:
       react: '*'
       react-native: '*'
 
+  '@powersync-community/drizzle-op-sqlite-sync@file:..':
+    resolution: {directory: .., type: directory}
+
   '@powersync/common@1.36.0':
     resolution: {integrity: sha512-obyxaMDfQY3xFs2eus9WGP3+aVa4XThs09BPFsgftgJVNz1/+KbBbZDPFnfEEdDUnbO203c6VdGLNKyw2etLpg==}
 
@@ -928,9 +931,6 @@ packages:
     peerDependencies:
       '@powersync/common': ^1.36.0
       drizzle-orm: <1.0.0
-
-  '@powersync/drizzle-op-sqlite-sync@file:..':
-    resolution: {directory: .., type: directory}
 
   '@powersync/op-sqlite@0.7.6':
     resolution: {integrity: sha512-7IprfCpyy2KDkvnCKmfgM3HavnDoDD5H74/zWP+pHAeNRSayKw9EdMZQIjQOTxKByCxjgY0buMzXCmOKtGTm9w==}
@@ -4743,6 +4743,13 @@ snapshots:
       react: 19.1.0
       react-native: 0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.0)
 
+  '@powersync-community/drizzle-op-sqlite-sync@file:..(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@op-engineering/op-sqlite': 15.0.1(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.0))(react@19.1.0)
+    transitivePeerDependencies:
+      - react
+      - react-native
+
   '@powersync/common@1.36.0':
     dependencies:
       js-logger: 1.6.1
@@ -4751,13 +4758,6 @@ snapshots:
     dependencies:
       '@powersync/common': 1.36.0
       drizzle-orm: 0.44.5(@op-engineering/op-sqlite@15.0.1(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.0))(react@19.1.0))
-
-  '@powersync/drizzle-op-sqlite-sync@file:..(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.0))(react@19.1.0)':
-    dependencies:
-      '@op-engineering/op-sqlite': 15.0.1(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.0))(react@19.1.0)
-    transitivePeerDependencies:
-      - react
-      - react-native
 
   '@powersync/op-sqlite@0.7.6(@op-engineering/op-sqlite@15.0.1(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.0))(react@19.1.0))(@powersync/common@1.36.0)(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.0))(react@19.1.0)':
     dependencies:
