@@ -8,7 +8,6 @@ import {
   OPSQLiteTransactionConfig
 } from './OPSQLiteBaseSession.js';
 import { DB } from '@op-engineering/op-sqlite';
-import { sql } from 'drizzle-orm';
 
 export class OPSQLiteSession<
   TFullSchema extends Record<string, unknown>,
@@ -38,13 +37,13 @@ export class OPSQLiteSession<
       new OPSQLiteBaseSession(this.client, this.dialect, this.schema, this.options),
       this.schema
     );
-
-    this.run(sql`begin${config?.behavior ? ' ' + config.behavior : ''}`);
+    
+    this.client.executeSync(`begin${config?.behavior ? ' ' + config.behavior : ''}`);
     try {
       result = transaction(tx);
-      this.run(sql`commit`);
+      this.client.executeSync('commit');
     } catch (err) {
-      this.run(sql`rollback`);
+      this.client.executeSync('rollback');
       throw err;
     }
 
