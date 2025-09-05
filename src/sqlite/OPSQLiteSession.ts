@@ -37,7 +37,7 @@ export class OPSQLiteSession<
       new OPSQLiteBaseSession(this.client, this.dialect, this.schema, this.options),
       this.schema
     );
-    
+
     this.client.executeSync(`begin${config?.behavior ? ' ' + config.behavior : ''}`);
     try {
       result = transaction(tx);
