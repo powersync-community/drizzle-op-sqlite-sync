@@ -1,5 +1,12 @@
 # @powersync/drizzle-op-sqlite-sync
 
+# 0.0.4
+
+### Patch Changes
+
+- 8018a3: add linting script and workflow test
+- a08007: fix run prettier to fix wrong file formatting
+
 # 0.0.3
 
 ### Patch Changes
