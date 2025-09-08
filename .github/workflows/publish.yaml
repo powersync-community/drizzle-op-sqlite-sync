@@ -43,6 +43,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Run Prettier (lint check)
+        run: pnpm lint
+
       - name: Build package
         run: pnpm build
 
