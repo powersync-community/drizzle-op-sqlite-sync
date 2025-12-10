@@ -17,12 +17,7 @@ import {
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { PowerSyncContext, useQuery } from '@powersync/react-native';
 import { eq } from 'drizzle-orm';
-import {
-  drizzleLists,
-  drizzleTodos,
-  SystemContext,
-  useSystem,
-} from './SystemContext';
+import { drizzleLists, SystemContext, useSystem } from './SystemContext';
 import { toCompilableQuery } from '@powersync/drizzle-driver';
 
 function App() {
@@ -62,19 +57,6 @@ function AppContent(): React.JSX.Element {
               padding: 25,
             }}
           >
-            {/* <View>
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontWeight: 'bold',
-                  marginVertical: 10,
-                  textAlign: 'center',
-                }}
-              >
-                Sync OpSQLite List
-              </Text>
-              <SyncList />
-            </View> */}
             <View>
               <Text
                 style={{
@@ -116,12 +98,21 @@ function SyncDrizzleList() {
   //   toCompilableQuery(system.drizzleSync.select().from(drizzleLists)),
   // );
   // Or you can manually listen for changes and update state
-  const [lists, setLists] = React.useState<any[]>([]);
+  const [lists, setLists] = React.useState<any[] | undefined>([]);
   useEffect(() => {
     system.powersync.onChangeWithCallback(
       {
         onChange: () => {
-          setLists(system.drizzleSync.select().from(drizzleLists).all());
+          new Promise(res => {
+            setLists(
+              system.drizzleSync
+                ?.select()
+                .from(drizzleLists)
+                .orderBy(drizzleLists.name)
+                .all(),
+            );
+            res(null);
+          });
         },
       },
       {
@@ -132,6 +123,19 @@ function SyncDrizzleList() {
 
   return (
     <View>
+      <Button
+        title="Add List"
+        onPress={() => {
+          system.drizzleSync
+            ?.insert(drizzleLists)
+            .values({
+              id: generateUUID(),
+              name: `List ${Math.floor(Math.random() * 1000)}`,
+              owner_id: generateUUID(),
+            })
+            .run();
+        }}
+      />
       <FlatList
         data={lists}
         keyExtractor={(item, i) => item.id! + i}
@@ -159,26 +163,13 @@ function SyncDrizzleList() {
               title="X"
               onPress={() => {
                 system.drizzleSync
-                  .delete(drizzleLists)
+                  ?.delete(drizzleLists)
                   .where(eq(drizzleLists.id, list.id!))
                   .run();
               }}
             ></Button>
           </View>
         )}
-      />
-      <Button
-        title="Add List"
-        onPress={() => {
-          system.drizzleSync
-            .insert(drizzleLists)
-            .values({
-              id: generateUUID(),
-              name: `List ${Math.floor(Math.random() * 1000)}`,
-              owner_id: generateUUID(),
-            })
-            .run();
-        }}
       />
     </View>
   );
@@ -187,10 +178,23 @@ function SyncDrizzleList() {
 function DrizzleList() {
   const system = useSystem();
   const { data: lists } = useQuery(
-    toCompilableQuery(system.drizzle.select().from(drizzleLists)),
+    toCompilableQuery(
+      system.drizzle.select().from(drizzleLists).orderBy(drizzleLists.name),
+    ),
   );
+
   return (
     <View>
+      <Button
+        title="Add List"
+        onPress={async () => {
+          await system.drizzle.insert(drizzleLists).values({
+            id: generateUUID(),
+            name: `aList ${Math.floor(Math.random() * 1000)}`,
+            owner_id: generateUUID(),
+          });
+        }}
+      />
       <FlatList
         data={lists}
         keyExtractor={(item, i) => item.id! + i}
@@ -224,16 +228,6 @@ function DrizzleList() {
             ></Button>
           </View>
         )}
-      />
-      <Button
-        title="Add List"
-        onPress={async () => {
-          await system.drizzle.insert(drizzleLists).values({
-            id: generateUUID(),
-            name: `List ${Math.floor(Math.random() * 1000)}`,
-            owner_id: generateUUID(),
-          });
-        }}
       />
     </View>
   );
