@@ -18,6 +18,15 @@ importers:
       '@pnpm/workspace.find-packages':
         specifier: ^1000.0.33
         version: 1000.0.33(@pnpm/logger@1001.0.0)(@pnpm/worker@1000.1.11(@pnpm/logger@1001.0.0)(@types/node@20.19.11))(typanion@3.14.0)
+      '@powersync/drizzle-driver':
+        specifier: ^0.7.0
+        version: 0.7.0(@powersync/common@1.42.0)(drizzle-orm@0.44.5(@libsql/client-wasm@0.15.14)(@op-engineering/op-sqlite@15.0.1(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.1))(react@19.1.1)))
+      '@powersync/op-sqlite':
+        specifier: ^0.7.14
+        version: 0.7.14(@op-engineering/op-sqlite@15.0.1(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.1))(react@19.1.1))(@powersync/common@1.42.0)(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.1))(react@19.1.1)
+      '@powersync/react-native':
+        specifier: ^1.26.2
+        version: 1.26.2(@powersync/common@1.42.0)(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.1))(react@19.1.1)
       '@rollup/plugin-commonjs':
         specifier: ^28.0.6
         version: 28.0.6(rollup@4.50.0)
@@ -1235,6 +1244,40 @@ packages:
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
 
+  '@powersync/common@1.42.0':
+    resolution: {integrity: sha512-UPqWY8CSOgbKs/xKGv4ijokEhNmn4kKszu9aOiTq6lugX7CGSaIJ4Ii+CH738RsVLTSjgK0gplhVWLB7H8bcWg==}
+
+  '@powersync/drizzle-driver@0.7.0':
+    resolution: {integrity: sha512-qMlHq6YHZtIsBA2a/oeEdX3PPo1fcaDFBtNREsJ1KsRInJyJS4vplF/i6sCwUK10Bb+kKUeQxLeA6SsD0IqD3g==}
+    peerDependencies:
+      '@powersync/common': ^1.41.1
+      drizzle-orm: <1.0.0
+
+  '@powersync/op-sqlite@0.7.14':
+    resolution: {integrity: sha512-pDFgK46FGr6MUiAE2KHFEKgxeifTOJcgi7qX7yNPo0ZCWYU8iubsgVHYGECStdp3Syo+6/i6mEwimTALMiUqfg==}
+    peerDependencies:
+      '@op-engineering/op-sqlite': 15.0.1
+      '@powersync/common': ^1.42.0
+      react: '*'
+      react-native: '*'
+
+  '@powersync/react-native@1.26.2':
+    resolution: {integrity: sha512-/temfOtjshIq3fsh0mflE/I+RJ3J7FaqMmr15Ch67iurxF48lGqp0dm2c9YoXJSMowj4AJcglkafcPiMDRml4A==}
+    peerDependencies:
+      '@journeyapps/react-native-quick-sqlite': ^2.4.9
+      '@powersync/common': ^1.42.0
+      react: '*'
+      react-native: '*'
+    peerDependenciesMeta:
+      '@journeyapps/react-native-quick-sqlite':
+        optional: true
+
+  '@powersync/react@1.8.2':
+    resolution: {integrity: sha512-15z8JKt66dq2bqX2P7QQ71eUIx3DWLc5WMdB/PDc9MIAHf1SERqKfzbzWGxKplQGHC/GogDA7G8IDoRadhNXOA==}
+    peerDependencies:
+      '@powersync/common': ^1.41.1
+      react: '*'
+
   '@react-native-community/cli-clean@20.0.0':
     resolution: {integrity: sha512-YmdNRcT+Dp8lC7CfxSDIfPMbVPEXVFzBH62VZNbYGxjyakqAvoQUFTYPgM2AyFusAr4wDFbDOsEv88gCDwR3ig==}
 
@@ -1931,6 +1974,12 @@ packages:
   async-limiter@1.0.1:
     resolution: {integrity: sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==}
 
+  async-lock@1.4.1:
+    resolution: {integrity: sha512-Az2ZTpuytrtqENulXwO3GGv1Bztugx6TT37NIo7imr/Qo0gsYiGtSdBa2B6fsXhTpVZDNfu1Qn3pk531e3q+nQ==}
+
+  async-mutex@0.5.0:
+    resolution: {integrity: sha512-1A94B18jkJ3DYq284ohPxoXbfTA5HsQ7/Mf4DEhcyLx3Bz27Rh59iScbB6EPiP+B+joue6YCxcMXSbFC1tZKwA==}
+
   babel-jest@29.7.0:
     resolution: {integrity: sha512-BrvGY3xZSwEcCzKvKsCi2GgHqDqsYkOP4/by5xCgIwGXQxIEh+8ew3gmrE1y7XRR6LHZIj6yLYnUi/mm2KXKBg==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -2024,6 +2073,9 @@ packages:
 
   buffer@5.7.1:
     resolution: {integrity: sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==}
+
+  buffer@6.0.3:
+    resolution: {integrity: sha512-FTiCpNxtwiZZHEZbcbTIcZjERVICn9yq/pDFkTl95/AxzD1naBctN7YO68riM/gLSDY7sdrMby8hofADYuuqOA==}
 
   builtins@5.1.0:
     resolution: {integrity: sha512-SW9lzGTLvWTP1AY8xeAMZimqDrIaSdLQUcVr9DMef51niJ022Ri87SwRRKYm4A6iHfkPaiVUu/Duw2Wc4J7kKg==}
@@ -2537,6 +2589,9 @@ packages:
   etag@1.8.1:
     resolution: {integrity: sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==}
     engines: {node: '>= 0.6'}
+
+  event-iterator@2.0.0:
+    resolution: {integrity: sha512-KGft0ldl31BZVV//jj+IAIGCxkvvUkkON+ScH6zfoX+l+omX6001ggyRSpI0Io2Hlro0ThXotswCtfzS8UkIiQ==}
 
   event-target-shim@5.0.1:
     resolution: {integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==}
@@ -6210,6 +6265,38 @@ snapshots:
   '@polka/url@1.0.0-next.29':
     optional: true
 
+  '@powersync/common@1.42.0':
+    dependencies:
+      async-mutex: 0.5.0
+      buffer: 6.0.3
+      event-iterator: 2.0.0
+
+  '@powersync/drizzle-driver@0.7.0(@powersync/common@1.42.0)(drizzle-orm@0.44.5(@libsql/client-wasm@0.15.14)(@op-engineering/op-sqlite@15.0.1(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.1))(react@19.1.1)))':
+    dependencies:
+      '@powersync/common': 1.42.0
+      drizzle-orm: 0.44.5(@libsql/client-wasm@0.15.14)(@op-engineering/op-sqlite@15.0.1(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.1))(react@19.1.1))
+
+  '@powersync/op-sqlite@0.7.14(@op-engineering/op-sqlite@15.0.1(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.1))(react@19.1.1))(@powersync/common@1.42.0)(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.1))(react@19.1.1)':
+    dependencies:
+      '@op-engineering/op-sqlite': 15.0.1(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.1))(react@19.1.1)
+      '@powersync/common': 1.42.0
+      async-lock: 1.4.1
+      react: 19.1.1
+      react-native: 0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.1)
+
+  '@powersync/react-native@1.26.2(@powersync/common@1.42.0)(react-native@0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.1))(react@19.1.1)':
+    dependencies:
+      '@powersync/common': 1.42.0
+      '@powersync/react': 1.8.2(@powersync/common@1.42.0)(react@19.1.1)
+      async-mutex: 0.5.0
+      react: 19.1.1
+      react-native: 0.81.0(@babel/core@7.28.3)(@react-native-community/cli@20.0.0(typescript@5.9.2))(@react-native/metro-config@0.81.0(@babel/core@7.28.3))(@types/react@19.1.11)(react@19.1.1)
+
+  '@powersync/react@1.8.2(@powersync/common@1.42.0)(react@19.1.1)':
+    dependencies:
+      '@powersync/common': 1.42.0
+      react: 19.1.1
+
   '@react-native-community/cli-clean@20.0.0':
     dependencies:
       '@react-native-community/cli-tools': 20.0.0
@@ -7023,6 +7110,12 @@ snapshots:
 
   async-limiter@1.0.1: {}
 
+  async-lock@1.4.1: {}
+
+  async-mutex@0.5.0:
+    dependencies:
+      tslib: 2.8.1
+
   babel-jest@29.7.0(@babel/core@7.28.3):
     dependencies:
       '@babel/core': 7.28.3
@@ -7188,6 +7281,11 @@ snapshots:
       base64-js: 1.5.1
       ieee754: 1.2.1
     optional: true
+
+  buffer@6.0.3:
+    dependencies:
+      base64-js: 1.5.1
+      ieee754: 1.2.1
 
   builtins@5.1.0:
     dependencies:
@@ -7630,6 +7728,8 @@ snapshots:
 
   etag@1.8.1: {}
 
+  event-iterator@2.0.0: {}
+
   event-target-shim@5.0.1: {}
 
   eventemitter3@4.0.7: {}
@@ -7898,8 +7998,7 @@ snapshots:
       safer-buffer: 2.1.2
     optional: true
 
-  ieee754@1.2.1:
-    optional: true
+  ieee754@1.2.1: {}
 
   ignore-walk@5.0.1:
     dependencies:
