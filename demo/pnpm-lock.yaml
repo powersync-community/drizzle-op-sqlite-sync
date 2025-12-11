@@ -21,8 +21,8 @@ importers:
         specifier: ^1.41.0
         version: 1.42.0
       '@powersync/drizzle-driver':
-        specifier: file:../../powersync-js/packages/drizzle-driver
-        version: file:../../powersync-js/packages/drizzle-driver(@powersync/common@1.42.0)(drizzle-orm@0.44.7(@op-engineering/op-sqlite@15.0.7(react-native@0.82.1(@babel/core@7.28.5)(@react-native-community/cli@20.0.2(typescript@5.9.3))(@react-native/metro-config@0.82.1(@babel/core@7.28.5))(@types/react@19.2.4)(react@19.1.1))(react@19.1.1)))
+        specifier: 0.7.0
+        version: 0.7.0(@powersync/common@1.42.0)(drizzle-orm@0.44.7(@op-engineering/op-sqlite@15.0.7(react-native@0.82.1(@babel/core@7.28.5)(@react-native-community/cli@20.0.2(typescript@5.9.3))(@react-native/metro-config@0.82.1(@babel/core@7.28.5))(@types/react@19.2.4)(react@19.1.1))(react@19.1.1)))
       '@powersync/op-sqlite':
         specifier: ^0.7.12
         version: 0.7.14(@op-engineering/op-sqlite@15.0.7(react-native@0.82.1(@babel/core@7.28.5)(@react-native-community/cli@20.0.2(typescript@5.9.3))(@react-native/metro-config@0.82.1(@babel/core@7.28.5))(@types/react@19.2.4)(react@19.1.1))(react@19.1.1))(@powersync/common@1.42.0)(react-native@0.82.1(@babel/core@7.28.5)(@react-native-community/cli@20.0.2(typescript@5.9.3))(@react-native/metro-config@0.82.1(@babel/core@7.28.5))(@types/react@19.2.4)(react@19.1.1))(react@19.1.1)
@@ -30,8 +30,8 @@ importers:
         specifier: ^1.26.0
         version: 1.26.2(@journeyapps/react-native-quick-sqlite@2.4.11(react-native@0.82.1(@babel/core@7.28.5)(@react-native-community/cli@20.0.2(typescript@5.9.3))(@react-native/metro-config@0.82.1(@babel/core@7.28.5))(@types/react@19.2.4)(react@19.1.1))(react@19.1.1))(@powersync/common@1.42.0)(react-native@0.82.1(@babel/core@7.28.5)(@react-native-community/cli@20.0.2(typescript@5.9.3))(@react-native/metro-config@0.82.1(@babel/core@7.28.5))(@types/react@19.2.4)(react@19.1.1))(react@19.1.1)
       '@react-native/new-app-screen':
-        specifier: 0.81.0
-        version: 0.81.0(@types/react@19.2.4)(react-native@0.82.1(@babel/core@7.28.5)(@react-native-community/cli@20.0.2(typescript@5.9.3))(@react-native/metro-config@0.82.1(@babel/core@7.28.5))(@types/react@19.2.4)(react@19.1.1))(react@19.1.1)
+        specifier: 0.82.1
+        version: 0.82.1(@types/react@19.2.4)(react-native@0.82.1(@babel/core@7.28.5)(@react-native-community/cli@20.0.2(typescript@5.9.3))(@react-native/metro-config@0.82.1(@babel/core@7.28.5))(@types/react@19.2.4)(react@19.1.1))(react@19.1.1)
       drizzle-orm:
         specifier: ^0.44.5
         version: 0.44.7(@op-engineering/op-sqlite@15.0.7(react-native@0.82.1(@babel/core@7.28.5)(@react-native-community/cli@20.0.2(typescript@5.9.3))(@react-native/metro-config@0.82.1(@babel/core@7.28.5))(@types/react@19.2.4)(react@19.1.1))(react@19.1.1))
@@ -928,10 +928,10 @@ packages:
   '@powersync/common@1.42.0':
     resolution: {integrity: sha512-UPqWY8CSOgbKs/xKGv4ijokEhNmn4kKszu9aOiTq6lugX7CGSaIJ4Ii+CH738RsVLTSjgK0gplhVWLB7H8bcWg==}
 
-  '@powersync/drizzle-driver@file:../../powersync-js/packages/drizzle-driver':
-    resolution: {directory: ../../powersync-js/packages/drizzle-driver, type: directory}
+  '@powersync/drizzle-driver@0.7.0':
+    resolution: {integrity: sha512-qMlHq6YHZtIsBA2a/oeEdX3PPo1fcaDFBtNREsJ1KsRInJyJS4vplF/i6sCwUK10Bb+kKUeQxLeA6SsD0IqD3g==}
     peerDependencies:
-      '@powersync/common': workspace:^1.43.1
+      '@powersync/common': ^1.41.1
       drizzle-orm: <1.0.0
 
   '@powersync/op-sqlite@0.7.14':
@@ -1070,8 +1070,8 @@ packages:
     resolution: {integrity: sha512-mAY6R3xnDMlmDOrUCAtLTjIkli26DZt4LNVuAjDEdnlv5sHANOr5x4qpMn7ea1p9Q/tpfHLalPQUQeJ8CZH4gA==}
     engines: {node: '>= 20.19.4'}
 
-  '@react-native/new-app-screen@0.81.0':
-    resolution: {integrity: sha512-740IMMoWm4b9RTSE6e+R9QmxKmId5cINbJxe0+bp7S8UkR6/9qbi5KFw5XM4rIWMLPKf5KwH7/BuCeEys7GoBg==}
+  '@react-native/new-app-screen@0.82.1':
+    resolution: {integrity: sha512-cViiTco2ukQVd683tGk+7bwf8WMS6A9hg5HUB3LjFli4pzOinuDlC5jzym6RiROhS5B3NmQ3CTccJmWgsJQL1w==}
     engines: {node: '>= 20.19.4'}
     peerDependencies:
       '@types/react': ^19.1.0
@@ -4700,7 +4700,7 @@ snapshots:
       buffer: 6.0.3
       event-iterator: 2.0.0
 
-  '@powersync/drizzle-driver@file:../../powersync-js/packages/drizzle-driver(@powersync/common@1.42.0)(drizzle-orm@0.44.7(@op-engineering/op-sqlite@15.0.7(react-native@0.82.1(@babel/core@7.28.5)(@react-native-community/cli@20.0.2(typescript@5.9.3))(@react-native/metro-config@0.82.1(@babel/core@7.28.5))(@types/react@19.2.4)(react@19.1.1))(react@19.1.1)))':
+  '@powersync/drizzle-driver@0.7.0(@powersync/common@1.42.0)(drizzle-orm@0.44.7(@op-engineering/op-sqlite@15.0.7(react-native@0.82.1(@babel/core@7.28.5)(@react-native-community/cli@20.0.2(typescript@5.9.3))(@react-native/metro-config@0.82.1(@babel/core@7.28.5))(@types/react@19.2.4)(react@19.1.1))(react@19.1.1)))':
     dependencies:
       '@powersync/common': 1.42.0
       drizzle-orm: 0.44.7(@op-engineering/op-sqlite@15.0.7(react-native@0.82.1(@babel/core@7.28.5)(@react-native-community/cli@20.0.2(typescript@5.9.3))(@react-native/metro-config@0.82.1(@babel/core@7.28.5))(@types/react@19.2.4)(react@19.1.1))(react@19.1.1))
@@ -5018,7 +5018,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@react-native/new-app-screen@0.81.0(@types/react@19.2.4)(react-native@0.82.1(@babel/core@7.28.5)(@react-native-community/cli@20.0.2(typescript@5.9.3))(@react-native/metro-config@0.82.1(@babel/core@7.28.5))(@types/react@19.2.4)(react@19.1.1))(react@19.1.1)':
+  '@react-native/new-app-screen@0.82.1(@types/react@19.2.4)(react-native@0.82.1(@babel/core@7.28.5)(@react-native-community/cli@20.0.2(typescript@5.9.3))(@react-native/metro-config@0.82.1(@babel/core@7.28.5))(@types/react@19.2.4)(react@19.1.1))(react@19.1.1)':
     dependencies:
       react: 19.1.1
       react-native: 0.82.1(@babel/core@7.28.5)(@react-native-community/cli@20.0.2(typescript@5.9.3))(@react-native/metro-config@0.82.1(@babel/core@7.28.5))(@types/react@19.2.4)(react@19.1.1)
