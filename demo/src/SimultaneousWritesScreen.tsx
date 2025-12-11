@@ -104,10 +104,6 @@ async function runLockingTest(
   };
 }
 
-async function clearLists(powersync: PowerSyncDatabase) {
-  await powersync.execute('DELETE FROM lists');
-}
-
 async function runHookedConnectionSimultaneousWrites(
   powersync: PowerSyncDatabase,
   drizzleOnPowerSync: OPSQLiteDatabase<typeof drizzleSchema>,
