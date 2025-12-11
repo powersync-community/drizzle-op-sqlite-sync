@@ -41,9 +41,13 @@
     "clean": "rm -rf lib dist tsconfig.tsbuildinfo",
     "watch": "tsc --build -w",
     "test": "vitest",
-    "test:exports": "attw --pack ."
+    "test:exports": "attw --pack .",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm build:prod && changeset publish"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.29.8",
     "@pnpm/workspace.find-packages": "^1000.0.33",
     "@powersync/drizzle-driver": "^0.7.0",
     "@powersync/op-sqlite": "^0.7.14",
