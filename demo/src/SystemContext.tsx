@@ -163,10 +163,6 @@ export class System {
   }
 
   initPowersyncOpSqlite(db: DB) {
-    // const opSqlite = open({
-    //   name: DB_NAME,
-    // });
-
     const baseStatements = [
       `PRAGMA journal_mode = WAL`,
       `PRAGMA busy_timeout = ${5000}`,

@@ -5,20 +5,14 @@
  * @format
  */
 
-import React, { useEffect } from 'react';
-import {
-  Button,
-  FlatList,
-  StatusBar,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Button, FlatList, StatusBar, Text, useColorScheme, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { PowerSyncContext, useQuery } from '@powersync/react-native';
 import { eq } from 'drizzle-orm';
 import { drizzleLists, SystemContext, useSystem } from './SystemContext';
 import { toCompilableQuery } from '@powersync/drizzle-driver';
+import { SimultaneousWritesScreen } from './SimultaneousWritesScreen';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -33,6 +27,7 @@ function App() {
 
 function AppContent(): React.JSX.Element {
   const system = useSystem();
+  const [activeScreen, setActiveScreen] = useState<'lists' | 'tests'>('lists');
   useEffect(() => {
     const initialize = async () => {
       try {
@@ -48,45 +43,74 @@ function AppContent(): React.JSX.Element {
   return (
     <SystemContext.Provider value={system}>
       <PowerSyncContext.Provider value={system.powersync}>
-        <SafeAreaView>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              padding: 25,
-            }}
-          >
-            <View>
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontWeight: 'bold',
-                  marginVertical: 10,
-                  textAlign: 'center',
-                }}
-              >
-                Drizzle List
-              </Text>
-              <DrizzleList />
+        <SafeAreaView style={{ flex: 1 }}>
+          <View style={{ flex: 1, padding: 25 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                marginBottom: 20,
+              }}
+            >
+              <Button
+                title="Lists"
+                onPress={() => setActiveScreen('lists')}
+                disabled={activeScreen === 'lists'}
+              />
+              <View style={{ width: 12 }} />
+              <Button
+                title="Simultaneous Tests"
+                onPress={() => setActiveScreen('tests')}
+                disabled={activeScreen === 'tests'}
+              />
             </View>
-            <View>
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontWeight: 'bold',
-                  marginVertical: 10,
-                  textAlign: 'center',
-                }}
-              >
-                Sync Drizzle List
-              </Text>
-              <SyncDrizzleList />
-            </View>
+
+            {activeScreen === 'tests' ? <SimultaneousWritesScreen /> : <ListsScreen />}
           </View>
         </SafeAreaView>
       </PowerSyncContext.Provider>
     </SystemContext.Provider>
+  );
+}
+
+function ListsScreen() {
+  return (
+    <View style={{ flex: 1 }}>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}
+      >
+        <View style={{ flex: 1, marginRight: 10 }}>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: 'bold',
+              marginVertical: 10,
+              textAlign: 'center',
+            }}
+          >
+            Drizzle List
+          </Text>
+          <DrizzleList />
+        </View>
+        <View style={{ flex: 1, marginLeft: 10 }}>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: 'bold',
+              marginVertical: 10,
+              textAlign: 'center',
+            }}
+          >
+            Sync Drizzle List
+          </Text>
+          <SyncDrizzleList />
+        </View>
+      </View>
+    </View>
   );
 }
 
