@@ -1,5 +1,4 @@
 import React from 'react';
-import { DB, getDylibPath, open } from '@op-engineering/op-sqlite';
 import { sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import {
   AbstractPowerSyncDatabase,
@@ -23,7 +22,7 @@ import {
   drizzle,
   OPSQLiteDatabase,
 } from '@powersync-community/drizzle-op-sqlite-sync';
-import { Platform } from 'react-native';
+import { DB } from '@op-engineering/op-sqlite';
 
 const logger = createBaseLogger();
 logger.useDefaults();
@@ -37,7 +36,6 @@ export class SelfhostConnector {
       .then(response => response.json())
       .then(data => data.token);
 
-    console.log('Fetched token:', token);
     return {
       endpoint: 'http://localhost:8080',
       token,
@@ -83,12 +81,7 @@ export class SelfhostConnector {
         );
       }
 
-      await transaction
-        .complete
-        // import.meta.env.VITE_CHECKPOINT_MODE == CheckpointMode.CUSTOM
-        //   ? await this.getCheckpoint(this._clientId)
-        //   : undefined
-        ();
+      await transaction.complete();
       console.log('Transaction completed successfully');
     } catch (ex: any) {
       console.debug(ex);
@@ -136,9 +129,8 @@ export class System {
   connector: SelfhostConnector;
   powersync: PowerSyncDatabase;
   drizzle: PowerSyncSQLiteDatabase<typeof drizzleSchema>;
-  drizzleSync: OPSQLiteDatabase<typeof drizzleSchema>;
-  opSqlite: DB;
-  private updateBuffer: UpdateNotification[];
+  drizzleSync?: OPSQLiteDatabase<typeof drizzleSchema>;
+  updateBuffer: UpdateNotification[] = [];
 
   constructor() {
     this.connector = new SelfhostConnector();
@@ -149,47 +141,41 @@ export class System {
       }),
       logger,
     });
-    this.updateBuffer = [];
 
     this.drizzle = wrapPowerSyncWithDrizzle(this.powersync, {
       schema: drizzleSchema,
     });
-
-    this.opSqlite = this.initPowersyncOpSqlite();
-
-    this.drizzleSync = drizzle(this.opSqlite, {
-      schema: drizzleSchema,
-    });
   }
 
-  initPowersyncOpSqlite() {
-    const opSqlite = open({
-      name: DB_NAME,
-    });
+  async init() {
+    await this.powersync.init();
+    await this.powersync.connect(this.connector);
+    await this.powersync.waitForFirstSync();
 
+    const adapter = this.powersync.database as any;
+    const db = adapter.writeConnection.DB;
+
+    this.drizzleSync = drizzle(db, {
+      schema: drizzleSchema,
+    });
+    
+    this.initPowersyncOpSqlite(db);
+  }
+
+  initPowersyncOpSqlite(db: DB) {
     const baseStatements = [
-      `PRAGMA busy_timeout = ${30000}`,
+      `PRAGMA journal_mode = WAL`,
+      `PRAGMA busy_timeout = ${5000}`,
       `PRAGMA cache_size = -${50 * 1024}`,
-      `PRAGMA temp_store = memory`,
     ];
 
     for (const stmt of baseStatements) {
-      opSqlite.executeSync(stmt);
+      // Sync version of the execute function will block the JS thread and therefore your UI
+      db.executeSync(stmt);
     }
-
-    if (Platform.OS === 'ios') {
-      const libPath = getDylibPath(
-        'co.powersync.sqlitecore',
-        'powersync-sqlite-core',
-      );
-      opSqlite.loadExtension(libPath, 'sqlite3_powersync_init');
-    } else {
-      opSqlite.loadExtension('libpowersync', 'sqlite3_powersync_init');
-    }
-    opSqlite.executeSync('SELECT powersync_init()');
 
     // Handle update hook to buffer row changes during a transaction
-    opSqlite.updateHook(update => {
+    db.updateHook(update => {
       let opType: RowUpdateType;
       switch (update.operation) {
         case 'INSERT':
@@ -203,6 +189,8 @@ export class System {
           break;
       }
 
+      console.log('Update Hook:', update.table, opType, update.rowId);
+
       this.updateBuffer.push({
         table: update.table,
         opType,
@@ -211,10 +199,15 @@ export class System {
     });
 
     // Handle commit hook to notify listeners after a successful transaction
-    opSqlite.commitHook(() => {
+    db.commitHook(() => {
       if (!this.updateBuffer.length) {
         return;
       }
+
+      console.info(
+        'Commit Hook: Notifying listeners of updates',
+        this.updateBuffer,
+      );
 
       const groupedUpdates = this.updateBuffer.reduce(
         (grouping: Record<string, UpdateNotification[]>, update) => {
@@ -242,13 +235,7 @@ export class System {
       });
     });
 
-    return opSqlite;
-  }
-
-  async init() {
-    await this.powersync.init();
-    await this.powersync.connect(this.connector);
-    await this.powersync.waitForFirstSync();
+    return db;
   }
 }
 

@@ -5,25 +5,14 @@
  * @format
  */
 
-import React, { useEffect } from 'react';
-import {
-  Button,
-  FlatList,
-  StatusBar,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Button, FlatList, StatusBar, Text, useColorScheme, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { PowerSyncContext, useQuery } from '@powersync/react-native';
 import { eq } from 'drizzle-orm';
-import {
-  drizzleLists,
-  drizzleTodos,
-  SystemContext,
-  useSystem,
-} from './SystemContext';
+import { drizzleLists, SystemContext, useSystem } from './SystemContext';
 import { toCompilableQuery } from '@powersync/drizzle-driver';
+import { SimultaneousWritesScreen } from './SimultaneousWritesScreen';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -38,6 +27,7 @@ function App() {
 
 function AppContent(): React.JSX.Element {
   const system = useSystem();
+  const [activeScreen, setActiveScreen] = useState<'lists' | 'tests'>('lists');
   useEffect(() => {
     const initialize = async () => {
       try {
@@ -53,58 +43,74 @@ function AppContent(): React.JSX.Element {
   return (
     <SystemContext.Provider value={system}>
       <PowerSyncContext.Provider value={system.powersync}>
-        <SafeAreaView>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              padding: 25,
-            }}
-          >
-            {/* <View>
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontWeight: 'bold',
-                  marginVertical: 10,
-                  textAlign: 'center',
-                }}
-              >
-                Sync OpSQLite List
-              </Text>
-              <SyncList />
-            </View> */}
-            <View>
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontWeight: 'bold',
-                  marginVertical: 10,
-                  textAlign: 'center',
-                }}
-              >
-                Drizzle List
-              </Text>
-              <DrizzleList />
+        <SafeAreaView style={{ flex: 1 }}>
+          <View style={{ flex: 1, padding: 25 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                marginBottom: 20,
+              }}
+            >
+              <Button
+                title="Lists"
+                onPress={() => setActiveScreen('lists')}
+                disabled={activeScreen === 'lists'}
+              />
+              <View style={{ width: 12 }} />
+              <Button
+                title="Simultaneous Tests"
+                onPress={() => setActiveScreen('tests')}
+                disabled={activeScreen === 'tests'}
+              />
             </View>
-            <View>
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontWeight: 'bold',
-                  marginVertical: 10,
-                  textAlign: 'center',
-                }}
-              >
-                Sync Drizzle List
-              </Text>
-              <SyncDrizzleList />
-            </View>
+
+            {activeScreen === 'tests' ? <SimultaneousWritesScreen /> : <ListsScreen />}
           </View>
         </SafeAreaView>
       </PowerSyncContext.Provider>
     </SystemContext.Provider>
+  );
+}
+
+function ListsScreen() {
+  return (
+    <View style={{ flex: 1 }}>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}
+      >
+        <View style={{ flex: 1, marginRight: 10 }}>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: 'bold',
+              marginVertical: 10,
+              textAlign: 'center',
+            }}
+          >
+            Drizzle List
+          </Text>
+          <DrizzleList />
+        </View>
+        <View style={{ flex: 1, marginLeft: 10 }}>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: 'bold',
+              marginVertical: 10,
+              textAlign: 'center',
+            }}
+          >
+            Sync Drizzle List
+          </Text>
+          <SyncDrizzleList />
+        </View>
+      </View>
+    </View>
   );
 }
 
@@ -116,12 +122,21 @@ function SyncDrizzleList() {
   //   toCompilableQuery(system.drizzleSync.select().from(drizzleLists)),
   // );
   // Or you can manually listen for changes and update state
-  const [lists, setLists] = React.useState<any[]>([]);
+  const [lists, setLists] = React.useState<any[] | undefined>([]);
   useEffect(() => {
     system.powersync.onChangeWithCallback(
       {
         onChange: () => {
-          setLists(system.drizzleSync.select().from(drizzleLists).all());
+          new Promise(res => {
+            setLists(
+              system.drizzleSync
+                ?.select()
+                .from(drizzleLists)
+                .orderBy(drizzleLists.name)
+                .all(),
+            );
+            res(null);
+          });
         },
       },
       {
@@ -132,6 +147,19 @@ function SyncDrizzleList() {
 
   return (
     <View>
+      <Button
+        title="Add List"
+        onPress={() => {
+          system.drizzleSync
+            ?.insert(drizzleLists)
+            .values({
+              id: generateUUID(),
+              name: `List ${Math.floor(Math.random() * 1000)}`,
+              owner_id: generateUUID(),
+            })
+            .run();
+        }}
+      />
       <FlatList
         data={lists}
         keyExtractor={(item, i) => item.id! + i}
@@ -159,26 +187,13 @@ function SyncDrizzleList() {
               title="X"
               onPress={() => {
                 system.drizzleSync
-                  .delete(drizzleLists)
+                  ?.delete(drizzleLists)
                   .where(eq(drizzleLists.id, list.id!))
                   .run();
               }}
             ></Button>
           </View>
         )}
-      />
-      <Button
-        title="Add List"
-        onPress={() => {
-          system.drizzleSync
-            .insert(drizzleLists)
-            .values({
-              id: generateUUID(),
-              name: `List ${Math.floor(Math.random() * 1000)}`,
-              owner_id: generateUUID(),
-            })
-            .run();
-        }}
       />
     </View>
   );
@@ -187,10 +202,23 @@ function SyncDrizzleList() {
 function DrizzleList() {
   const system = useSystem();
   const { data: lists } = useQuery(
-    toCompilableQuery(system.drizzle.select().from(drizzleLists)),
+    toCompilableQuery(
+      system.drizzle.select().from(drizzleLists).orderBy(drizzleLists.name),
+    ),
   );
+
   return (
     <View>
+      <Button
+        title="Add List"
+        onPress={async () => {
+          await system.drizzle.insert(drizzleLists).values({
+            id: generateUUID(),
+            name: `aList ${Math.floor(Math.random() * 1000)}`,
+            owner_id: generateUUID(),
+          });
+        }}
+      />
       <FlatList
         data={lists}
         keyExtractor={(item, i) => item.id! + i}
@@ -224,16 +252,6 @@ function DrizzleList() {
             ></Button>
           </View>
         )}
-      />
-      <Button
-        title="Add List"
-        onPress={async () => {
-          await system.drizzle.insert(drizzleLists).values({
-            id: generateUUID(),
-            name: `List ${Math.floor(Math.random() * 1000)}`,
-            owner_id: generateUUID(),
-          });
-        }}
       />
     </View>
   );

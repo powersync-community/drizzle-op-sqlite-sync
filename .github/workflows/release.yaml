@@ -1,29 +1,33 @@
-name: Publish Package
+name: Release
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   release:
+    name: Release
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
+      pull-requests: write
     steps:
-      - uses: actions/checkout@v4
-      
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           scope: '@powersync-community'
-      
+
       - uses: pnpm/action-setup@v2
         name: Install pnpm
         with:
-          # Pnpm 9.4 introduces this https://github.com/pnpm/pnpm/pull/7633
-          # which causes workspace:^1.2.0 to be converted to 1.2.0^1.2.0
           version: 9.3
           run_install: false
 
@@ -54,7 +58,14 @@ jobs:
           echo "@powersync-community:registry=https://npm.pkg.github.com" >> ~/.npmrc
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> ~/.npmrc
 
-      - name: Publish package
-        run: pnpm publish --no-git-checks --access public
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          publish: pnpm release
+          version: pnpm version-packages
+          commit: "chore: version packages"
+          title: "chore: version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
