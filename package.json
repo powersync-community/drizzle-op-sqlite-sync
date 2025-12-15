@@ -1,6 +1,6 @@
 {
   "name": "@powersync-community/drizzle-op-sqlite-sync",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Synchronous Drizzle ORM Driver for React Native using op-sqlite",
   "type": "module",
   "main": "dist/index.cjs",

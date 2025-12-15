@@ -1,5 +1,11 @@
 # @powersync/drizzle-op-sqlite-sync
 
+## 0.1.1
+
+### Patch Changes
+
+- Fix release script public access
+
 ## 0.1.0
 
 ### Minor Changes
